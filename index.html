@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quiz do Amor</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to bottom right, #ff8c8c, #ffffff);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-bottom: 80px;
+    }
+    header img {
+      width: 190px;
+      margin: 30px 0 10px;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      color: #a30000;
+    }
+    .quiz-container {
+      max-width: 800px;
+      width: 90%;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      padding: 30px;
+      margin-top: 20px;
+    }
+    .question {
+      margin-bottom: 25px;
+    }
+    .question h3 {
+      margin-bottom: 10px;
+      color: #cc0000;
+    }
+    .options button {
+      display: block;
+      width: 100%;
+      margin: 8px 0;
+      padding: 12px;
+      font-size: 1em;
+      background: linear-gradient(to bottom, #ff6666, #cc0000);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px #990000;
+      transition: all 0.2s ease;
+    }
+    .options button:hover {
+      transform: translateY(2px);
+      box-shadow: 0 2px #990000;
+    }
+    #result {
+      margin-top: 40px;
+      text-align: center;
+    }
+    #result img {
+      max-width: 200px;
+      margin: 20px auto;
+    }
+    footer {
+      margin-top: 50px;
+    }
+    footer img {
+      width: 180px;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="https://i.postimg.cc/kX4R8JxM/Photoroom-20250608-214930607.png" alt="Quiz do Amor"/>
+  </header>
+
+  <h1>Quiz do Amor</h1>
+
+  <div class="quiz-container" id="quiz"></div>
+
+  <div id="result"></div>
+
+  <footer>
+    <img src="https://i.postimg.cc/7LWQCZjQ/Logo-Alta-Resolu-o-1.png" alt="MugShopp logo"/>
+  </footer>
+
+  <script>
+    const questions = [
+      {
+        question: "Qual é o tipo de filme preferido da pessoa amada?",
+        options: ["Romance", "Ação", "Terror", "Comédia"],
+        answer: "Romance"
+      },
+      {
+        question: "Se ela fosse um doce, qual seria?",
+        options: ["Brigadeiro", "Sorvete de morango", "Torta de limão", "Bala de coco"],
+        answer: "Sorvete de morango"
+      },
+      {
+        question: "O que mais derrete o coração dela?",
+        options: ["Um bilhete carinhoso", "Surpresa romântica", "Beijo na testa", "Música lenta"],
+        answer: "Beijo na testa"
+      },
+      {
+        question: "O lugar perfeito para um encontro ideal seria:",
+        options: ["Praia ao pôr do sol", "Cinema", "Jantar à luz de velas", "Parque tranquilo"],
+        answer: "Jantar à luz de velas"
+      },
+      {
+        question: "Qual dessas músicas define o amor dela?",
+        options: ["Ainda Bem – Marisa Monte", "Perfect – Ed Sheeran", "Pra Você Guardei o Amor – Nando Reis", "Amor I Love You – Tribalistas"],
+        answer: "Pra Você Guardei o Amor – Nando Reis"
+      },
+      {
+        question: "Quando está apaixonada, ela fica mais...",
+        options: ["Tímida", "Carinhosa", "Falante", "Sonhadora"],
+        answer: "Carinhosa"
+      },
+      {
+        question: "Ela acredita em...",
+        options: ["Amor à primeira vista", "Almas gêmeas", "Acasos do destino", "Tudo isso junto"],
+        answer: "Tudo isso junto"
+      },
+      {
+        question: "Qual é o emoji mais usado por ela com você?",
+        options: ["😍", "❤️", "😘", "😂"],
+        answer: "❤️"
+      },
+      {
+        question: "Uma flor que combina com ela:",
+        options: ["Rosa vermelha", "Girassol", "Tulipa", "Orquídea"],
+        answer: "Rosa vermelha"
+      },
+      {
+        question: "Qual dessas frases mais representa o sentimento dela?",
+        options: ["Amar é cuidar", "Amar é liberdade", "Amar é presença", "Amar é aceitar o outro como é"],
+        answer: "Amar é liberdade"
+      }
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+    const resultContainer = document.getElementById("result");
+    let score = 0;
+    let currentQuestion = 0;
+
+    function showQuestion(index) {
+      const q = questions[index];
+      quizContainer.innerHTML = `
+        <div class="question">
+          <h3>${index + 1}. ${q.question}</h3>
+          <div class="options">
+            ${q.options.map(option => `<button onclick="checkAnswer('${option}')">${option}</button>`).join('')}
+          </div>
+        </div>
+      `;
+    }
+
+    function checkAnswer(selected) {
+      if (selected === questions[currentQuestion].answer) {
+        score++;
+      }
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion(currentQuestion);
+      } else {
+        showResult();
+      }
+    }
+
+    function showResult() {
+      let message = "";
+      let gif = "";
+      let percentage = (score / questions.length) * 100;
+
+      if (percentage < 50) {
+        message = "É... o amor precisa de mais capítulos ainda! ❤️📖";
+        gif = "https://i.postimg.cc/Njm8nGL8/giphy.gif";
+      } else if (percentage === 50) {
+        message = "Tá pegando no tranco esse coração aí! 🚗💘";
+        gif = "https://i.postimg.cc/fT3fxfNr/giphy-2.gif";
+      } else if (percentage < 100) {
+        message = "Vocês se conhecem bem, hein? Amor verdadeiro tá no ar! 💞";
+        gif = "https://i.postimg.cc/L6rBvg46/giphy-1.gif";
+      } else {
+        message = "Almas conectadas! Isso é amor de novela mexicana! 💋💃";
+        gif = "https://i.postimg.cc/L6rBvg46/giphy-1.gif";
+      }
+
+      quizContainer.innerHTML = "";
+      resultContainer.innerHTML = `
+        <h2>Resultado: ${score} de ${questions.length}</h2>
+        <p>${message}</p>
+        <img src="${gif}" alt="Resultado GIF"/>
+      `;
+    }
+
+    // Início
+    showQuestion(currentQuestion);
+  </script>
+</body>
+</html>
